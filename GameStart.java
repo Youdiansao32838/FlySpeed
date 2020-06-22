@@ -1,3 +1,5 @@
+//import java.util.Random;
+
 public class GameStart {
 
     public boolean isGameStart=false;
@@ -20,11 +22,11 @@ public class GameStart {
     }
 
     private void firstLevel(){
-        
         long startTime=0;//获取到初始的时间戳
         long temTime=0;
         long endTime=0;
-        
+        boolean setPipeY[]={true,true,true,true};//用四个开关操作也是属是无奈
+        int score=0;//得分
         //GameMenu.window.selectImage(1);
         GameMenu.window.witchPaint=1;
         GameMenu.playerImageSwitchNumber=10;
@@ -32,14 +34,14 @@ public class GameStart {
         while (isGameStart==true) {
             startTime=System.currentTimeMillis();
             temTime=System.currentTimeMillis();
-            while (endTime-startTime<1000) {
+            while (endTime-startTime<1000&&isGameStart==true){
                 endTime=System.currentTimeMillis();//执行结束时候的时间戳
                 if(endTime-temTime>=1000/GameMenu.fps){
                     if (GameMenu.playerMoveUP==true) {
                         //向上移动
                         //playerMoveStep=playerMoveSpeed/(1000/(endTime-temTime));
                         if (GameMenu.window.playerY>=0)
-                        GameMenu.window.playerY-=GameMenu.playerMoveSpeed/(1000/(endTime-temTime));
+                        GameMenu.window.playerY-=(GameMenu.playerMoveSpeed+500)/(1000/(endTime-temTime));
                         if(GameMenu.playerMoveLeft==true){
                             //向左移动
                             if(GameMenu.window.playerX>=0)
@@ -54,7 +56,7 @@ public class GameStart {
                     else if (GameMenu.playerMoveDown==true){
                         //向下移动
                         if(GameMenu.window.playerY<=670)
-                        GameMenu.window.playerY+=GameMenu.playerMoveSpeed/(1000/(endTime-temTime));
+                        GameMenu.window.playerY+=(GameMenu.playerMoveSpeed+500)/(1000/(endTime-temTime));
                         if(GameMenu.playerMoveLeft==true){
                             //向左移动
                             if(GameMenu.window.playerX>=0)
@@ -89,25 +91,64 @@ public class GameStart {
                         GameMenu.window.pipeImageX[3]-=pipeMoveSpeed/(1000/(endTime-temTime));
                     }
                     GameMenu.window.playingBackgroundX-=gamePlayingBackSpeed/(1000/(endTime-temTime));
-                    
+
+                    //在这里把管子的开口位置决定出来
+                    if (setPipeY[0]==true) {
+                        //用Math.random()*10来产生0到10的随机数
+                        GameMenu.window.pipeDownImageY[0]-=(Math.random()*30)*20;
+                        //GameMenu.window.pipeUpImageY[0]=GameMenu.window.pipeDownImageY[0]+620+220;
+                        setPipeY[0]=false;
+                    }
+                    if (setPipeY[1]==true) {
+                        GameMenu.window.pipeDownImageY[1]-=(Math.random()*30)*20 ;
+                        //GameMenu.window.pipeUpImageY[1]=GameMenu.window.pipeDownImageY[1]+620+220;
+                        setPipeY[1]=false;
+                    }
+                    if (setPipeY[2]==true) {
+                        GameMenu.window.pipeDownImageY[2]-=(Math.random()*30)*20 ;
+                        //GameMenu.window.pipeUpImageY[2]=GameMenu.window.pipeDownImageY[2]+620+220;
+                        setPipeY[2]=false;
+                    }
+                    if (setPipeY[3]==true) {
+                        GameMenu.window.pipeDownImageY[3]-=(Math.random()*30)*20 ;
+                        //GameMenu.window.pipeUpImageY[3]=GameMenu.window.pipeDownImageY[3]+620+220;
+                        setPipeY[3]=false;
+                    }
+                    collisionDetection(GameMenu.window.pipeImageX[0], GameMenu.window.pipeDownImageY[0]);
+                    collisionDetection(GameMenu.window.pipeImageX[1], GameMenu.window.pipeDownImageY[1]);
+                    collisionDetection(GameMenu.window.pipeImageX[2], GameMenu.window.pipeDownImageY[2]);
+                    collisionDetection(GameMenu.window.pipeImageX[3], GameMenu.window.pipeDownImageY[3]);
                     GameMenu.playerImageSwitchCount++;
                     playerVibrationTime++;
-    
+                    GameMenu.window.scoreString=""+score;
                     GameMenu.window.repaint();
                     GameMenu.fpsSum++;//记录每秒的帧数
 
                     //让管子归位的神奇代码
                     if (GameMenu.window.pipeImageX[0]<=-52) {
                         GameMenu.window.pipeImageX[0]=1300;
+                        GameMenu.window.pipeDownImageY[0]=0;
+                        setPipeY[0]=true;
+                        score++;
                     }
                     else if (GameMenu.window.pipeImageX[1]<=-52) {
                         GameMenu.window.pipeImageX[1]=1300;
+                        GameMenu.window.pipeDownImageY[1]=0;
+                        setPipeY[1]=true;
+                        score++;
+
                     }
                     else if (GameMenu.window.pipeImageX[2]<=-52) {
                         GameMenu.window.pipeImageX[2]=1300;
+                        GameMenu.window.pipeDownImageY[2]=0;
+                        setPipeY[2]=true;
+                        score++;
                     }
                     else if (GameMenu.window.pipeImageX[3]<=-52) {
                         GameMenu.window.pipeImageX[3]=1300;
+                        GameMenu.window.pipeDownImageY[3]=0;
+                        setPipeY[3]=true;
+                        score++;
                     }
 
                     
@@ -152,7 +193,22 @@ public class GameStart {
         //System.out.println("第一关启动");
         //gameStarting();
         gameEnding();
-        
+    }
+
+    private void collisionDetection(int pipeX,int pipeY){
+        //这个数组表示player的矩形
+        int playerLocation[]={
+            GameMenu.window.playerX,//尾部X
+            GameMenu.window.playerX+50,//头部X
+            GameMenu.window.playerY,//顶部Y
+            GameMenu.window.playerY+50//底部Y
+        };
+        //当player加入指定范围的时候就开始操作
+        if (playerLocation[1]>=pipeX&&playerLocation[0]<=pipeX+52){
+            if (playerLocation[2]<=pipeY+620||playerLocation[3]>=pipeY+620+220) {
+                isGameStart=false;
+            }
+        }
     }
 
     private void thirdLevel(){
@@ -172,6 +228,9 @@ public class GameStart {
         GameMenu.window.pipeImageX[1]=1600;
         GameMenu.window.pipeImageX[2]=1920;
         GameMenu.window.pipeImageX[3]=2240;
-
+        GameMenu.window.pipeDownImageY[0]=0;
+        GameMenu.window.pipeDownImageY[1]=0;
+        GameMenu.window.pipeDownImageY[2]=0;
+        GameMenu.window.pipeDownImageY[3]=0;
     }
 }

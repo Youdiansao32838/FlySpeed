@@ -50,10 +50,12 @@ public class GameWindow extends JFrame{
 
     private Image temImage;//缓冲区
     private Graphics temImagePaint;//缓冲区绘制
-    String fpssString="fps:0";//帧数监视器
+    public String fpssString="fps:0";//帧数监视器
+    public String scoreString="0";
     private Graphics2D fpsGraphics2d;//帧数画笔
 
     Font fpsFont=new Font(null,1,30);
+    Font scoreFont=new Font(null,0,20);
     //GameMenu mainObject=new GameMenu();
 
     //这是各种东西的坐标
@@ -64,7 +66,7 @@ public class GameWindow extends JFrame{
     //最开始的管子坐标应该是按间隙排好的
     public int pipeImageX[]={1280,1620,1940,2260};//四根管子用四个坐标属实为无奈之举
     public int pipeDownImageY[]={0,0,0,0};
-    public int pipeUpImageY[]={0,0,0,0};
+    //public int pipeUpImageY[]={0,0,0,0};
 
 
     public int witchPaint=0;//画笔挑选
@@ -198,6 +200,11 @@ public class GameWindow extends JFrame{
         temImagePaint.drawImage(playingBackImage, playingBackgroundX, 0 ,null);//画背景
         temImagePaint.drawImage(playingBackImage, playingBackgroundX+1280, 0, null);//画另外一个背景
         temImagePaint.drawImage(playerImage[GameMenu.playerSwitchNumber], playerX, playerY,50, 50, null);//画player
+        //分数的字体和fps信息的字体不一样，颜色也不一样，所以要先切换
+        fpsGraphics2d.setFont(scoreFont);
+        fpsGraphics2d.setColor(Color.BLACK);
+        fpsGraphics2d.drawString(scoreString,playerX+10, playerY+70);
+       
         if (this.londingAnimeStart==true) {
             //如果longding动画的开关时开着的，那就继续放送动画
             temImagePaint.drawImage(londingImage, londingBackgroundX, 0, null);
@@ -205,12 +212,23 @@ public class GameWindow extends JFrame{
         else{
             //要等到londing的动画完全结束了，才能开始游戏
             temImagePaint.drawImage(pipeImage[0],pipeImageX[0],pipeDownImageY[0],null);
-            temImagePaint.drawImage(pipeImage[0], pipeImageX[1], pipeDownImageY[1], null);
-            temImagePaint.drawImage(pipeImage[0], pipeImageX[2], pipeDownImageY[2], null);
-            temImagePaint.drawImage(pipeImage[0], pipeImageX[3], pipeDownImageY[3], null);
-        }
+            temImagePaint.drawImage(pipeImage[1], pipeImageX[0], pipeDownImageY[0]+620+220, null);
 
+            temImagePaint.drawImage(pipeImage[0], pipeImageX[1], pipeDownImageY[1], null);
+            temImagePaint.drawImage(pipeImage[1], pipeImageX[1], pipeDownImageY[1]+620+220, null);
+
+            temImagePaint.drawImage(pipeImage[0], pipeImageX[2], pipeDownImageY[2], null);
+            temImagePaint.drawImage(pipeImage[1], pipeImageX[2], pipeDownImageY[2]+620+220, null);
+
+            temImagePaint.drawImage(pipeImage[0], pipeImageX[3], pipeDownImageY[3], null);
+            temImagePaint.drawImage(pipeImage[1], pipeImageX[3], pipeDownImageY[3]+620+220, null);
+
+        }
+        //把fps的字体换回来
+        fpsGraphics2d.setFont(fpsFont);
+        fpsGraphics2d.setColor(Color.green);
         fpsGraphics2d.drawString(fpssString, 50, 100);//写上每一秒的帧数
+
         g.drawImage(temImage, 0, 0, this);//把画完的一帧贴到窗口里面去
     }
     
