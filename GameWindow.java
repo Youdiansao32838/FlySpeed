@@ -25,7 +25,7 @@ public class GameWindow extends JFrame{
         "./data/Image/londing.jpg",
         "./data/Image/playing_back.jpg"
     };
-    private final String[] pipeImageFilePath={"./data/Image/pipe_up.png","./data/Image/pipe_down.png"};
+    private final String[] pipeImageFilePath={"./data/Image/pipe_up1.png","./data/Image/pipe_down1.png"};
 
     private final File playerImageFile0_0=new File(playerImageFilePath[0]);//读取文件
     private final File playerImageFile0_1=new File(playerImageFilePath[1]);//读取文件
@@ -34,8 +34,8 @@ public class GameWindow extends JFrame{
     private final File menuBackgroundImagefFile=new File(backgroundImagefFilePath[0]);//菜单背景
     private final File firstLevelBackgroundFile=new File(backgroundImagefFilePath[1]);//开始背景
     private final File secondLevelBackgroundFile=new File(backgroundImagefFilePath[2]);//设置背景
-    private final File thirdLevelBackgroundFile=new File(backgroundImagefFilePath[3]);//关于
-    private final File fourthLevelBackgroundFile=new File(backgroundImagefFilePath[4]);//没了
+    private final File thirdLevelBackgroundFile=new File(backgroundImagefFilePath[3]);//空白
+    private final File fourthLevelBackgroundFile=new File(backgroundImagefFilePath[4]);//关于
     private final File londingBackgroundFile=new File(backgroundImagefFilePath[5]);//londing的背景
 
     private final File playingBackFile=new File(backgroundImagefFilePath[6]);//玩游戏时候的背景
@@ -52,6 +52,7 @@ public class GameWindow extends JFrame{
     private Graphics temImagePaint;//缓冲区绘制
     public String fpssString="fps:0";//帧数监视器
     public String scoreString="0";
+    public long flyTime=0;
     private Graphics2D fpsGraphics2d;//帧数画笔
 
     Font fpsFont=new Font(null,1,30);
@@ -146,8 +147,10 @@ public class GameWindow extends JFrame{
         else if (levelNumber==3) {
             try {
                 //退出
-                backgroundImage=ImageIO.read(thirdLevelBackgroundFile);//加载第三关的背景
+                backgroundImage=ImageIO.read(thirdLevelBackgroundFile);//加载分数的背景
+                //System.out.println("第三个背景可以");
             } catch (Exception e) {
+                //System.out.println("第三个背景不行");
                 e.printStackTrace();
             }
             return 3;
@@ -170,19 +173,22 @@ public class GameWindow extends JFrame{
             temImage=createImage(1280,720);//如果缓冲区是空的，那就创建一张空的图像
             temImagePaint=temImage.getGraphics();//获取绘图
             fpsGraphics2d=(Graphics2D)temImagePaint;//转换
-            fpsGraphics2d.setFont(fpsFont);//设置fps文字
-            fpsGraphics2d.setColor(Color.GREEN);
         }
 
         temImagePaint.drawImage(backgroundImage, 0, 0, 1280,720,null);//画背景
         temImagePaint.drawImage(playerImage[GameMenu.playerSwitchNumber], playerX, playerY, 100, 100, null);//画player
+        fpsGraphics2d.setFont(fpsFont);
+        fpsGraphics2d.setColor(Color.WHITE);
+        fpsGraphics2d.drawString("Last score:"+scoreString, 500, 150);
+        fpsGraphics2d.drawString("Last Time:"+flyTime+"s", 500, 200);
+        
 
         //如果把菜单动画的开关打开了，那就开始播放动画
         if (this.londingAnimeStart==true) {
             temImagePaint.drawImage(londingImage, londingBackgroundX, 0, null);
         }
         
-        
+        fpsGraphics2d.setColor(Color.GREEN);
         fpsGraphics2d.drawString(fpssString, 50, 100);//把fps信息画到缓冲区
         
         g.drawImage(temImage, 0, 0, this);//把缓冲区里的image画到面板上
@@ -230,6 +236,15 @@ public class GameWindow extends JFrame{
         fpsGraphics2d.drawString(fpssString, 50, 100);//写上每一秒的帧数
 
         g.drawImage(temImage, 0, 0, this);//把画完的一帧贴到窗口里面去
+        
+    }
+    //画个结束的动画
+    private void paintEndAnime(Graphics g){
+        temImagePaint.drawImage(londingImage,londingBackgroundX,0, null);//只画背景
+        fpsGraphics2d.setFont(fpsFont);
+        fpsGraphics2d.setColor(Color.green);
+        fpsGraphics2d.drawString(fpssString, 50, 100);//写上每一秒的帧数
+        g.drawImage(temImage, 0, 0, null);
     }
     
     @Override
@@ -241,6 +256,9 @@ public class GameWindow extends JFrame{
         //这个地方的操作逻辑有点小问题，但是我已经懒得改了
         else if (witchPaint==0 ||witchPaint==2||witchPaint==4) {
             paintMenu(g);
+        }
+        else if (witchPaint==5) {
+            paintEndAnime(g);
         }
         // else if (witchPaint==1) {
         //     paintLondingAnime(g);
