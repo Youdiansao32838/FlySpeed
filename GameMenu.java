@@ -1,14 +1,12 @@
 /*
 
 project name: Fly Speed
-version: 1.1.0(beta)
+version: 1.1.1(gold)
 start time: 06.17.2020
-end time: null
 
 项目名：Fly Speed
-当前版本：1.1.0(测试版)
+当前版本：1.1.1(完成版)
 开始时间：2020年6月17日
-结束时间：还没结束呢
 
 */
 import java.awt.event.*;
@@ -32,6 +30,7 @@ public class GameMenu {
     public static boolean playerMoveRight = false;
 
     private static boolean enterKeyDown = false;
+    public static boolean musicPlaye=true;
 
     public static final int londingBackSpeed = 1500;
 
@@ -41,7 +40,7 @@ public class GameMenu {
     public static boolean londingAnimeStart = false;// 加载动画状态检测
 
     public static void main(String[] args){
-
+        new PlaySound();
         GameStart game = new GameStart();
 
         long startTime = 0, endTime = 0, temTime = 0;// 动画的计时器
@@ -116,7 +115,6 @@ public class GameMenu {
                         System.out.println("返回菜单");
                         game.isGameStart=false;
                         break;
-
                     default:
                         break;
                 }
