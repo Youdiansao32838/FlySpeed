@@ -25,7 +25,7 @@ public class GameWindow extends JFrame{
         "./data/Image/londing.jpg",
         "./data/Image/playing_back.jpg"
     };
-    private final String[] pipeImageFilePath={"./data/Image/pipe_up1.png","./data/Image/pipe_down1.png"};
+    private final String[] pipeImageFilePath={"./data/Image/pipe_up.png","./data/Image/pipe_down.png"};
 
     private final File playerImageFile0_0=new File(playerImageFilePath[0]);//读取文件
     private final File playerImageFile0_1=new File(playerImageFilePath[1]);//读取文件

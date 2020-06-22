@@ -112,7 +112,7 @@ public class GameMenu {
 
                     case KeyEvent.VK_ESCAPE:
                         window.selectImage(0);
-                        System.out.println("返回菜单");
+                        //System.out.println("返回菜单");
                         game.isGameStart=false;
                         break;
                     default:
