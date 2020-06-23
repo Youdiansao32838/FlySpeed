@@ -9,7 +9,7 @@ public class PlaySound {
         try {
             Clip bgm = AudioSystem.getClip();
             InputStream musicInputStream = PlaySound.class.getClassLoader()
-                    .getResourceAsStream("./data/BGM/Vexento - Eyes Closed.wav");
+                    .getResourceAsStream("./data/BGM/bgm.wav");
             AudioInputStream ais = AudioSystem.getAudioInputStream(musicInputStream);
             bgm.open(ais);
             bgm.loop(Clip.LOOP_CONTINUOUSLY);

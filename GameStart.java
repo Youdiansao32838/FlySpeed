@@ -4,7 +4,7 @@ public class GameStart {
 
     public boolean isGameStart = false;
     private final int gamePlayingBackSpeed = 2000;
-    private final int pipeMoveSpeed = 1000;
+    private final int pipeMoveSpeed = 800;
     private int playerVibrationTime = 0;
     private int playerUpOrDown = 3;
     private int playerVibrationSwitch = 0;
@@ -226,13 +226,13 @@ public class GameStart {
                     GameMenu.window.londingBackgroundX += GameMenu.londingBackSpeed / (1000 / (endTime - temTime));// 操作背景
 
                     GameMenu.window.repaint();
-                    if (GameMenu.window.londingBackgroundX >= 0 && GameMenu.window.londingBackgroundX <= 10) {
+                    if (GameMenu.window.londingBackgroundX >= 0 && GameMenu.window.londingBackgroundX <= 20) {
                         GameMenu.window.witchPaint = 0;// 换界面
                         GameMenu.window.playerX=370;//重新设置player的位置
                         GameMenu.window.playerY=315;
                         GameMenu.window.selectImage(3);
                     }
-                    if (GameMenu.window.londingBackgroundX >= 1028) {
+                    if (GameMenu.window.londingBackgroundX >= 1280) {
                         endAnimePlay = false;
                     }
                     temTime = System.currentTimeMillis();// 刷新时间戳，用于计算每一帧的时间

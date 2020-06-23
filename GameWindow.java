@@ -75,6 +75,8 @@ public class GameWindow extends JFrame{
     public boolean createPipe=false;
     
     public GameWindow(String gameTitle){
+        Image icon = Toolkit.getDefaultToolkit().getImage("./data/Image/bird0_1.png");
+        setIconImage(icon);
         setTitle(gameTitle);//游戏标题
         setBounds(10, 10, this.screenWidth, this.screenHeight);//设置初始位置和大小
         setDefaultCloseOperation(EXIT_ON_CLOSE);//设置关闭窗口的同时关闭程序
