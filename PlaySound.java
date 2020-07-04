@@ -14,7 +14,6 @@ public class PlaySound {
             bgm.open(ais);
             bgm.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

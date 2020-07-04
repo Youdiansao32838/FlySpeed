@@ -179,23 +179,25 @@ public class GameMenu {
             while (endTime-startTime<1000) {
                 endTime=System.currentTimeMillis();//执行结束时候的时间戳
                 if (enterKeyDown==true) {
-                    
+                    //如果按下了回车键，就看看选了哪个选项
                     if (window.playerX<=200&&window.playerY<=200) {
+                        //开始游戏
                         londingAnimeStart=true;
                         window.londingAnimeStart=londingAnimeStart;
                         //game.witchLevel(1);
                     }
                     else if (window.playerX>=980&&window.playerY<=200){
-                        
+                        //说明书
                         window.witchPaint=window.selectImage(2);
                         //game.witchLevel(2);
                     }
                     else if (window.playerX<=200&&window.playerY>=420) {
-                        
+                        //关于
                         window.witchPaint=window.selectImage(4);
                         //game.witchLevel(4);
                     }
                     else if (window.playerX>=980&&window.playerY>=420) {
+                        //退出
                         game.witchLevel(3);//结束游戏
                     }
                 }
@@ -247,12 +249,14 @@ public class GameMenu {
                     }
 
                     if (londingAnimeStart==true) {
+                        //动画开启
                         window.londingBackgroundX+=londingBackSpeed/(1000/(endTime-temTime));
                         if (window.londingBackgroundX>=0) {
                             window.playerX=170;
                             window.playerY=310;
                             game.isGameStart=true;
-                            game.witchLevel(1);//那就开始游戏
+                            //设置player的位置并且将游戏状态设置为开始状态
+                            game.witchLevel(1);//开始游戏
                         }
                     }
 

@@ -3,8 +3,8 @@
 public class GameStart {
 
     public boolean isGameStart = false;
-    private final int gamePlayingBackSpeed = 2000;
-    private final int pipeMoveSpeed = 800;
+    private final int gamePlayingBackSpeed = 1500;
+    private int pipeMoveSpeed = 500;
     private int playerVibrationTime = 0;
     private int playerUpOrDown = 3;
     private int playerVibrationSwitch = 0;
@@ -26,13 +26,14 @@ public class GameStart {
     }
 
     private void firstLevel() {
-
+        int addSpeedTime;
         boolean setPipeY[] = { true, true, true, true };// 用四个开关操作也是属是无奈
         flyStartTime = System.currentTimeMillis();
         // GameMenu.window.selectImage(1);
 
         GameMenu.window.witchPaint = 1;
         GameMenu.playerImageSwitchNumber = 10;
+        addSpeedTime=0;
         // 开始游戏
         while (isGameStart == true) {
             startTime = System.currentTimeMillis();
@@ -175,12 +176,19 @@ public class GameStart {
                     }
 
                     temTime = System.currentTimeMillis();// 刷新时间戳，用于计算每一帧的时间
+                    
                 }
 
             }
 
             GameMenu.window.fpssString = "fps:" + GameMenu.fpsSum;// 刷新显示在界面上的fps的值
             GameMenu.fpsSum = 0;// 刷新fps的值
+            addSpeedTime++;
+            //每过五秒就给障碍物加速
+            if (addSpeedTime==5&&pipeMoveSpeed<=1000) {
+                pipeMoveSpeed+=100;
+                addSpeedTime=0;
+            }
             // if (GameMenu.window.londingBackgroundX>=1280) {
             // isGameStart=true;
             // }
@@ -261,6 +269,7 @@ public class GameStart {
         GameMenu.window.londingBackgroundX=-1280;
         //pipeCreatTime=0;
         GameMenu.playerImageSwitchNumber=20;
+        pipeMoveSpeed=500;
         //pipeImageX[]={1280,1600,1920,2240}
         GameMenu.window.pipeImageX[0]=1280;
         GameMenu.window.pipeImageX[1]=1600;
