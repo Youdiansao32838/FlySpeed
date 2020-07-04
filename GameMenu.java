@@ -1,11 +1,11 @@
 /*
 
 project name: Fly Speed
-version: 1.1.3(gold)
+version: 1.1.5(gold)
 start time: 06.17.2020
 
 项目名：Fly Speed
-当前版本：1.1.3(完成版)
+当前版本：1.1.5(完成版)
 开始时间：2020年6月17日
 
 */
